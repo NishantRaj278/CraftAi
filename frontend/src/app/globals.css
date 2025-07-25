@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Apply JetBrains Mono as the default font */
+* {
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+
+html,
+body {
+  font-family: var(--font-jetbrains-mono), monospace;
+}
