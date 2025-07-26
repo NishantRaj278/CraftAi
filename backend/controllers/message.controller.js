@@ -1,8 +1,9 @@
-import Message from "../models/message.model";
+import Message from "../models/message.model.js";
+import { generateComponent } from "../utils/openai.js";
 
 export const getAllMessages = async (req, res) => {
   try {
-    const messages = await Message.find({ user: req.user._id }).populate(
+    const messages = await Message.find({ user: req.user.id }).populate(
       "user",
       "name email"
     );
@@ -13,15 +14,17 @@ export const getAllMessages = async (req, res) => {
 };
 
 export const createMessage = async (req, res) => {
-  const { message, generatedCode } = req.body;
-  if (!message) {
+  const { prompt } = req.body;
+  if (!prompt) {
     return res.status(400).json({ message: "Message content is required" });
   }
 
+  const generatedCode = await generateComponent(prompt);
+
   try {
     const newMessage = await Message.create({
-      message,
-      user: req.user._id,
+      message: prompt,
+      user: req.user.id,
       generatedCode,
     });
 

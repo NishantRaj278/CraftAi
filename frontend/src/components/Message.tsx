@@ -1,32 +1,51 @@
-import React from "react";
 import { FaUser } from "react-icons/fa";
+import LivePreview from "./LivePreview";
 
-function Message() {
+interface ChatProp {
+  _id: string;
+  message: string;
+  generatedCode: string;
+}
+
+function Message({ chat }: { chat: ChatProp }) {
+  // Split generatedCode into jsx and css
+  let jsxCode = "";
+  let cssCode = "";
+  try {
+    // Simple extraction for demo: look for jsx and css code blocks
+    const jsxMatch = chat.generatedCode.match(/```jsx([\s\S]*?)```/);
+    const cssMatch = chat.generatedCode.match(/```css([\s\S]*?)```/);
+    jsxCode = jsxMatch ? jsxMatch[1].trim() : "";
+    cssCode = cssMatch ? cssMatch[1].trim() : "";
+  } catch {
+    jsxCode = chat.generatedCode;
+    cssCode = "";
+  }
+
   return (
-    <div>
-      <div className="bg-gray-100 p-4 rounded-lg shadow-md flex flex-col gap-4">
-        <div className="flex items-center mb-2">
-          <FaUser className="text-gray-500 mr-2" size={20} />
-          <p className="font-semibold">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Accusantium, velit?
-          </p>
+    <div className="bg-gray-100 p-4 rounded-lg shadow-md flex flex-col gap-6">
+      <div className="flex items-center mb-2">
+        <FaUser className="text-gray-500 mr-2" size={20} />
+        <p className="font-semibold">{chat.message}</p>
+      </div>
+      {/* Preview Section */}
+      <div className="mb-4">
+        <h2 className="font-bold mb-2">Live Preview</h2>
+        <LivePreview jsxCode={jsxCode} />
+      </div>
+      {/* Code Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <h3 className="font-semibold mb-2">JSX Code</h3>
+          <pre className="bg-gray-200 p-2 rounded text-xs overflow-x-auto">
+            {jsxCode}
+          </pre>
         </div>
-        <div className="p-4 bg-gray-200 rounded-lg shadow-sm">
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia
-            corrupti, ex omnis voluptatibus nam modi reprehenderit eaque ipsa
-            dolorum quae temporibus minus esse dolores porro magnam dicta
-            excepturi sit quo nihil suscipit distinctio possimus iusto.
-            Temporibus fugit, labore veritatis, eos nostrum iusto, aliquid
-            aliquam tenetur cupiditate perspiciatis ad! Soluta quisquam quis
-            cumque sequi voluptas voluptates, pariatur, magnam, dolor odio sunt
-            veritatis perferendis dolorem illo excepturi cupiditate fuga
-            expedita accusamus? Amet veritatis ipsa maiores placeat nobis
-            aliquid praesentium eligendi temporibus quae! Velit, voluptate
-            ducimus nam dolore nostrum quam sint minus reprehenderit ab, harum
-            quo accusantium similique ipsum temporibus natus impedit provident?
-          </p>
+        <div>
+          <h3 className="font-semibold mb-2">CSS Code</h3>
+          <pre className="bg-gray-200 p-2 rounded text-xs overflow-x-auto">
+            {cssCode}
+          </pre>
         </div>
       </div>
     </div>

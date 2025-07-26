@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/auth.route.js";
 import connectDB from "./config/mongoose-connection.js";
 import cors from "cors";
+import messageRouter from "./routes/message.route.js";
 dotenv.config();
 
 const app = express();
