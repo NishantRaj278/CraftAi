@@ -5,6 +5,7 @@ import userRouter from "./routes/auth.route.js";
 import connectDB from "./config/mongoose-connection.js";
 import cors from "cors";
 import messageRouter from "./routes/message.route.js";
+import sessionRRouter from "./routes/session.route.js";
 dotenv.config();
 
 const app = express();
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", userRouter);
 app.use("/api/messages", messageRouter);
+app.use("/api/sessions", sessionRRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

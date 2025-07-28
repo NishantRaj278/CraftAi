@@ -1,4 +1,5 @@
 import axiosInstance from "@/utils/axiosInstance";
+import toast from "react-hot-toast";
 import { create } from "zustand";
 
 interface RegisterData {
@@ -63,8 +64,19 @@ const useUserStore = create<UserStoreState>((set) => ({
       const response = await axiosInstance.post("/auth/register", data);
       set({ authUser: response.data.user });
       return { success: true };
-    } catch (error) {
-      console.log("Registration failed:", error);
+    } catch (error: any) {
+      let errorMsg = "Registration failed: ";
+      if (
+        error &&
+        typeof error === "object" &&
+        "response" in error &&
+        error.response?.data?.message
+      ) {
+        errorMsg += error.response.data.message;
+      } else {
+        errorMsg += error?.message || String(error);
+      }
+      toast.error(errorMsg);
       return { success: false };
     } finally {
       set({ isRegistering: false });
