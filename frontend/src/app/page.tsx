@@ -1,7 +1,10 @@
 "use client";
+import React from "react";
 import Message from "@/components/Message";
 import useSessionStore from "@/store/sessionStore";
-import type React from "react";
+// import type React from "react";
+// Memoize Message to avoid unnecessary re-renders
+const MemoizedMessage = React.memo(Message);
 
 import useGeneratorStore from "@/store/generatorStore";
 import useUserStore from "@/store/userStore";
@@ -49,7 +52,16 @@ function Homepage() {
     const chat = (await sendPrompt(prompt)) as Chat | undefined;
     if (chat && sessionId) {
       await addChatToSession(sessionId, chat._id);
-      getSessionById(sessionId);
+      // Optimistically update currentSession for real-time UI
+      useSessionStore.setState((state: any) => {
+        if (!state.currentSession) return {};
+        return {
+          currentSession: {
+            ...state.currentSession,
+            chats: [...state.currentSession.chats, chat],
+          },
+        };
+      });
     }
     setPrompt("");
   };
@@ -104,13 +116,9 @@ function Homepage() {
           {/* Messages Container */}
           <div className="flex w-full max-w-4xl flex-col gap-6 mb-10">
             {currentSession?.chats.map((chat) => (
-              <div
-                key={chat._id}
-                className="animate-in slide-in-from-bottom-4 duration-500"
-              >
-                <Message chat={chat} />
-              </div>
+              <MemoizedMessage key={chat._id} chat={chat} />
             ))}
+
             <div ref={messagesEndRef} />
           </div>
         </div>

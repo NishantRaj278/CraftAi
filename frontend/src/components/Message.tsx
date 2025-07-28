@@ -45,19 +45,23 @@ function Message({ chat }: { chat: ChatProp }) {
       setTimeout(() => setCopiedCSS(false), 5000);
     }
   };
-  // Split generatedCode into jsx and css
+  // Split generatedCode into jsx, css, and html
   let jsxCode = "";
   let cssCode = "";
+  let htmlCode = "";
 
   try {
-    // Simple extraction for demo: look for jsx and css code blocks
+    // Extract jsx, css, and html code blocks
     const jsxMatch = chat.generatedCode.match(/```jsx([\s\S]*?)```/);
     const cssMatch = chat.generatedCode.match(/```css([\s\S]*?)```/);
+    const htmlMatch = chat.generatedCode.match(/```html([\s\S]*?)```/);
     jsxCode = jsxMatch ? jsxMatch[1].trim() : "";
     cssCode = cssMatch ? cssMatch[1].trim() : "";
+    htmlCode = htmlMatch ? htmlMatch[1].trim() : "";
   } catch {
     jsxCode = chat.generatedCode;
     cssCode = "";
+    htmlCode = "";
   }
 
   return (
@@ -78,7 +82,7 @@ function Message({ chat }: { chat: ChatProp }) {
 
       <div className="p-6 space-y-6">
         {/* Live Preview Section */}
-        {jsxCode && (
+        {htmlCode && (
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
@@ -96,7 +100,7 @@ function Message({ chat }: { chat: ChatProp }) {
                 </div>
               </div>
               <div className="p-4 bg-white min-h-[200px]">
-                <LivePreview jsxCode={jsxCode} />
+                <LivePreview htmlCode={htmlCode} />
               </div>
             </div>
           </div>

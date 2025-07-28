@@ -19,8 +19,17 @@ export async function generateComponent(prompt) {
         messages: [
           {
             role: "system",
-            content:
-              "You are a code generator that creates clean React (JSX) UI components and accompanying CSS based on user input. Respond with only code blocks.",
+            content: `
+              You are a code generator that creates clean and minimal React (JSX) UI components based on user input. 
+
+              Respond with the following three sections, all enclosed in appropriate code blocks:
+
+              1. A **React JSX component** (using functional components and hooks if needed)
+              2. The **CSS styles** (if not using Tailwind CSS)
+              3. A **fully functional HTML snippet** that looks like the component for preview purposes (assume scripts and styles are already loaded) without any script just style tag with given css, given with html tags.
+
+              Do not include any explanations. Only provide code blocks in this order: JSX, CSS (if any), HTML preview.
+              `.trim(),
           },
           {
             role: "user",
@@ -28,7 +37,7 @@ export async function generateComponent(prompt) {
           },
         ],
         temperature: 0.5,
-        max_tokens: 1000,
+        max_tokens: 1600,
       }),
     });
 
