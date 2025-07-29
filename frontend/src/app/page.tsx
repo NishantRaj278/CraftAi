@@ -126,7 +126,7 @@ function Homepage() {
 
       {/* Input Container */}
       {currentSession && (
-        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 w-full max-w-6xl px-4 sm:px-8 rounded-full ml-20">
+        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 w-full max-w-6xl px-4 sm:px-8 rounded-full md:ml-20">
           <div className="relative">
             {/* Backdrop blur effect */}
             <div className="absolute inset-0 bg-gray-800/80 backdrop-blur-xl rounded-2xl border border-gray-700/50"></div>
