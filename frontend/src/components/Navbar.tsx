@@ -1,10 +1,9 @@
 "use client";
-import useSessionStore from "@/store/sessionStore";
 import useUserStore from "@/store/userStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMenuOutline, IoClose, IoLogOutOutline } from "react-icons/io5";
 
 function Navbar() {

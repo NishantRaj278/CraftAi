@@ -6,7 +6,7 @@ interface GeneratorStoreState {
   sendPrompt: (data: string) => Promise<void>;
 }
 
-const useGeneratorStore = create<GeneratorStoreState>((set, get) => ({
+const useGeneratorStore = create<GeneratorStoreState>((set) => ({
   isGenerating: false,
 
   sendPrompt: async (data: string) => {

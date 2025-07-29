@@ -64,17 +64,29 @@ const useUserStore = create<UserStoreState>((set) => ({
       const response = await axiosInstance.post("/auth/register", data);
       set({ authUser: response.data.user });
       return { success: true };
-    } catch (error: any) {
+    } catch (error) {
       let errorMsg = "Registration failed: ";
+      // Use type assertion for AxiosError if available
       if (
         error &&
         typeof error === "object" &&
         "response" in error &&
-        error.response?.data?.message
+        (error as { response?: { data?: { message?: string } } }).response?.data
+          ?.message
       ) {
-        errorMsg += error.response.data.message;
+        errorMsg += (error as { response?: { data?: { message?: string } } })
+          .response!.data!.message!;
+        console.log(
+          "Registration failed:",
+          (error as { response?: { data?: { message?: string } } }).response!
+            .data!.message!
+        );
       } else {
-        errorMsg += error?.message || String(error);
+        errorMsg += (error as Error)?.message || String(error);
+        console.log(
+          "Registration failed:",
+          (error as Error)?.message || String(error)
+        );
       }
       toast.error(errorMsg);
       return { success: false };
