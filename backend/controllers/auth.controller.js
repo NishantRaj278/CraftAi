@@ -90,7 +90,11 @@ export const register = async (req, res) => {
 
 export const logout = (req, res) => {
   try {
-    res.cookie("jwtToken", "");
+    res.clearCookie("jwtToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // HTTPS in production, HTTP in dev
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
     res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
