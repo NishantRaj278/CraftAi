@@ -37,7 +37,7 @@ export async function generateComponent(prompt) {
           },
         ],
         temperature: 0.5,
-        max_tokens: 1600,
+        max_tokens: 1000,
       }),
     });
 

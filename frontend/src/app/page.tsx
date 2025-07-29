@@ -8,7 +8,7 @@ const MemoizedMessage = React.memo(Message);
 
 import useGeneratorStore from "@/store/generatorStore";
 import useUserStore from "@/store/userStore";
-import { useEffect, useState, useRef, use } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FaArrowUp } from "react-icons/fa6";
 import NotLoggedIn from "@/components/NotLoggedIn";
 import Sidebar from "@/components/Sidebar";
@@ -31,7 +31,7 @@ function Homepage() {
     if (sessionId) {
       getSessionById(sessionId);
     }
-  }, [sessionId]);
+  }, [sessionId, getSessionById]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -53,7 +53,7 @@ function Homepage() {
     if (chat && sessionId) {
       await addChatToSession(sessionId, chat._id);
       // Optimistically update currentSession for real-time UI
-      useSessionStore.setState((state: any) => {
+      useSessionStore.setState((state) => {
         if (!state.currentSession) return {};
         return {
           currentSession: {
