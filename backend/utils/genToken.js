@@ -10,9 +10,15 @@ const generateToken = (user, res) => {
       name: user.name,
       username: user.username,
     },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
   );
 
-  res.cookie("jwtToken", jwtToken);
+  res.cookie("jwtToken", jwtToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days in ms
+  });
 };
 export default generateToken;
