@@ -11,7 +11,7 @@ export async function generateComponent(prompt) {
       headers: {
         Authorization: `Bearer ${API_KEY}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": "http://localhost:3000", // 🔹 your frontend domain or localhost
+        "HTTP-Referer": "https://craft-ai-pi.vercel.app", // 🔹 your frontend domain or localhost
         "X-Title": "AI-Component-Builder", // 🔹 optional but required by OpenRouter
       },
       body: JSON.stringify({

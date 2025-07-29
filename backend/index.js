@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3002;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://craft-ai-pi.vercel.app",
     credentials: true,
   })
 );
